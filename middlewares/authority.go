@@ -1,22 +1,27 @@
 package middlewares
 
 import (
+	"encoding/json"
 	"github.com/gin-gonic/gin"
+	"go_demo/models"
 	"net/http"
 )
 
 func CheckUser() gin.HandlerFunc{
 	return func(c *gin.Context) {
 		token := c.Query("token")
-		if len(token) > 0{
-			c.Next()
-		}else {
+		info,err := models.ParseToken(token)
+		if err != nil{
 			c.JSON(http.StatusOK,gin.H{
 				"Code":333,
-				"Msg":"token no",
+				"Msg":"token is invalid",
 			})
+			c.Abort()
+			return
 		}
-		//c.Next()
+		data,_ := json.Marshal(info)
+		c.Set("userInfo",data)
+		c.Next()
 	}
 }
 

@@ -13,12 +13,14 @@ func RouterConfig() *gin.Engine {
 	router := gin.New()
 	f, _ := os.Create("gin.log")
 	gin.DefaultWriter = io.MultiWriter(f)
+	router.GET("/api/register",api.Register)
+	router.GET("/api/login",api.Login)
+	//router.GET("/test",api.Test)
+	router.GET("/test2",api.Test2)
 	apiGroup := router.Group("/api")
-	router.POST("/api/register",api.Register)
-	router.GET("/test",api.Test)
 	apiGroup.Use(middlewares.CheckUser())
 	{
-		apiGroup.GET("/test",api.Search)
+		apiGroup.GET("/userInfo",api.GetUserInfo)
 	}
 
 	//router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
