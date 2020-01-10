@@ -1,0 +1,5 @@
+[GIN-debug] POST   /api/register             --> go_demo/router/api.Register (1 handlers)
+[GIN-debug] GET    /test                     --> go_demo/router/api.Test (1 handlers)
+[GIN-debug] GET    /api/test                 --> go_demo/router/api.Search (2 handlers)
+[GIN-debug] Environment variable PORT is undefined. Using port :8080 by default
+[GIN-debug] Listening and serving HTTP on :8080
