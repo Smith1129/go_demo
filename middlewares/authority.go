@@ -2,6 +2,7 @@ package middlewares
 
 import (
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"go_demo/models"
 	"net/http"
@@ -19,7 +20,14 @@ func CheckUser() gin.HandlerFunc{
 			c.Abort()
 			return
 		}
-		data,_ := json.Marshal(info)
+		fmt.Println(info)
+		userInfo := models.FindUserByUsername(info.Username)
+		data,json_err := json.Marshal(userInfo)
+		if json_err!=nil{
+			fmt.Println("worryjson")
+			return
+		}
+		//data := utils.ModelToMap(userInfo)
 		c.Set("userInfo",data)
 		c.Next()
 	}

@@ -43,9 +43,9 @@ func (u *User) FindUserByUsernameAndPass() ([]User,error){
 	}
 	return user,nil
 }
-func (u *User) FindUserByUsername() []User{
-	var user []User
-	global.GormConfig.Where("username = ?",u.Username).Find(&user)
+func  FindUserByUsername(username string) User{
+	var user User
+	global.GormConfig.Where("username = ?",username).Find(&user)
 	return user
 }
 
