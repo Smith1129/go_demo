@@ -22,12 +22,12 @@ func CheckUser() gin.HandlerFunc{
 		}
 		fmt.Println(info)
 		userInfo := models.FindUserByUsername(info.Username)
-		data,json_err := json.Marshal(userInfo)
-		if json_err!=nil{
+		//var abcd []byte
+		data,err := json.Marshal(userInfo)
+		if err!=nil{
 			fmt.Println("worryjson")
 			return
 		}
-		//data := utils.ModelToMap(userInfo)
 		c.Set("userInfo",data)
 		c.Next()
 	}

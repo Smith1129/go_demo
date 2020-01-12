@@ -1,12 +1,12 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"go_demo/global"
 	"go_demo/models"
+	"go_demo/utils"
 	"net/http"
 	"time"
 )
@@ -68,33 +68,28 @@ func Login(c *gin.Context){
 }
 
 func GetUserInfo(c *gin.Context){
-	userInfo,ok := c.Get("userInfo")
-	if !ok{
+	userInfo,err := utils.GetUser(c)
+	if err != nil{
+		fmt.Println(err)
 		return
 	}
-	var mapResult map[string]interface{}
-	err := json.Unmarshal(userInfo.([] byte), &mapResult)
-	if err != nil {
-		fmt.Println("JsonToMapDemo err: ", err)
-		return
-	}
+	fmt.Println(userInfo.ID)
+	//userInfo,ok := c.Get("userInfo")
+	//if !ok{
+	//	return
+	//}
+	//fmt.Println(reflect.TypeOf(userInfo))
+	//var mapResult map[string]interface{}
+	//err := json.Unmarshal(userInfo.([] byte), &mapResult)
+	//if err != nil {
+	//	fmt.Println("JsonToMapDemo err: ", err)
+	//	return
+	//}
 	//var user []models.User
 	//user = userInfo
-	fmt.Println(mapResult["username"])
+	//fmt.Println(mapResult["username"])
 
 	//fmt.Println(reflect.ValueOf(userInfo["Username"]))
-	//json转map
-	//var mapResult map[string]interface{}
-	//	//err := json.Unmarshal(userInfo.([] byte), &mapResult)
-	//	//if err != nil {
-	//	//	fmt.Println("JsonToMapDemo err: ", err)
-	//	//}
-	//json转struct
-	//var a1 models.UserClaims
-	//err := json.Unmarshal(userInfo.([] byte),&a1)
-	//if err != nil{
-	//	fmt.Println(err)
-	//}
 	//fmt.Println(a1.ID)
 }
 
