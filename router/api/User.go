@@ -9,6 +9,7 @@ import (
 	"go_demo/models"
 	"go_demo/utils"
 	"net/http"
+	"reflect"
 	"time"
 )
 
@@ -84,63 +85,25 @@ func Test2(c *gin.Context){
 	}
 	var user []models.User
 	global.GormConfig.Find(&user)
-	data,err := json.Marshal(user)
+	mapresult := make(map[string]interface{})
+	mapresult["userList"] = user
+	mapresult["color"] = "red"
+	data,err1 := json.Marshal(mapresult)
+	fmt.Println(data,err1)
+	_,err := redisClient.HSet("zzz","aa",data).Result()
 	if err !=nil{
 		fmt.Println(err)
 	}
-	mapresult := map[string]string{
-		"userList":string(data),
-		"page":"1",
-		"color":"red",
-	}
-	//var mapresult map[string]string
-	//mapresult["userList"] = string(data)
-	//mapresult["page"] = "1"
-	//mapresult["color"] = "red"
-	fmt.Println(mapresult["page"])
-	c.JSON(http.StatusOK, gin.H{"Code": "0","Data":mapresult})
-	//fmt.Println(string(data))
-	//key := "userList"
-	//result,err := redisClient.HSet(key,"aa",mapresult).Result()
-	//if err != nil{
-	//	fmt.Println(err)
-	//}
-	//fmt.Println(result,err)
-	//fmt.Println("--------",result)
-	//hdata := redisClient.HGetAll(key).Val()
-	//fmt.Println(hdata)
-	//Test3()
-
-
-
-	//string操作
-	//value := "zzz"
-	//key := "name"
-	//redisClient.Set(key,value,0)
-	//val := redisClient.Get(key)
-	//if val == nil {
-	//	fmt.Errorf("StringDemo get error")
-	//}
-	//fmt.Println("value---------",val.Val())
-
-
-	//list操作
-	//listkey := "list"
-	//_,err := redisClient.RPush(listkey,"a","b","c").Result()
-	//if err!=nil {
-	//	fmt.Println(err)
-	//	return
-	//}
-	//fmt.Println(redisClient.LRange(listkey,0,2))
+	ddd,err100 := redisClient.HGet("zzz","aa").Result()
+	fmt.Println(ddd,err100,reflect.TypeOf(ddd))
+	map1 := make(map[string] interface{})
+	err11 := json.Unmarshal([] byte(ddd),&map1)
+	fmt.Println(err11,"----")
+	fmt.Println(map1)
+	c.JSON(http.StatusOK, gin.H{"Code": "0","Data":map1})
 }
 func Test3(){
-	key := "userList"
-	redisClient := global.GetRedisClient()
-	val := redisClient.Get(key)
-	if val == nil{
-		fmt.Println("worry")
-	}
-	fmt.Println(val.Val())
+
 }
 
 type Response struct {
@@ -148,5 +111,6 @@ type Response struct {
 	Page string `json:"Page"`
 	Color string `json:"color"`
 }
+
 
 

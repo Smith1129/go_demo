@@ -39,3 +39,18 @@ func GetUser(c *gin.Context)(models.User,error){
 	//	//	fmt.Println("JsonToMapDemo err: ", err)
 	//	//}
 }
+
+//map转json json转map
+//mapresult := make(map[string] interface{})
+//mapresult["userList"] = user
+//mapresult["page"] = "1"
+//mapresult["color"] = "red"
+//
+//
+////fmt.Println(string(data))
+//data,_ := json.Marshal(mapresult)
+
+//hdata := redisClient.HGet(key,"aa").Val()
+//a1 := make(map[string] interface{})
+//b := json.Unmarshal([] byte(hdata),a1)
+//fmt.Println(b)

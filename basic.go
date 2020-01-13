@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
-	"go_demo/router"
 	"go_demo/global"
+	"go_demo/router"
 )
 
 
@@ -20,8 +20,8 @@ func main() {
 	global.GormConfig.LogMode(true)
 	global.GormConfig.SingularTable(true)
 	r := router.RouterConfig()
+	//tasks.GetUserInfo(tasks.TasksTest())
 	r.Run()
-
 }
 
 
