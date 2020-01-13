@@ -1,10 +1,13 @@
 package models
 
 import (
+	"crypto/md5"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"go_demo/global"
 	"strings"
+	"time"
 )
 
 type User struct {
@@ -15,6 +18,15 @@ type User struct {
 	Nickname	string	`json:"nickname"` //
 	Avatar	string	`gorm:"default":'aaa' json:"avatar"` //
 	Money	string	`gorm:"default":0.00 json:"money"` //
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+}
+
+func Encrypt(pass string) string{
+	md5 := md5.New()
+	md5.Write([] byte(pass))
+	fmt.Println(hex.EncodeToString(md5.Sum(nil)),"-------")
+	return hex.EncodeToString(md5.Sum(nil))
 }
 
 func (u *User) InsertUser() int{
@@ -27,6 +39,7 @@ func (u *User) InsertUser() int{
 	var user []User
 	global.GormConfig.Where("username = ?",u.Username).Find(&user)
 	if len(user) == 0{
+		u.Pass = Encrypt(u.Pass)
 		err := global.GormConfig.Create(u).Error
 		fmt.Print(err)
 		return  1

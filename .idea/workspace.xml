@@ -3,9 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="b96514b1-bb94-4ae0-b913-aaf440b19c2a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/middlewares/authority.go" beforeDir="false" afterPath="$PROJECT_DIR$/middlewares/authority.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/global/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/global/global.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/models/User.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/router/api/User.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/api/User.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/StructToMap.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/GetInfo.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -21,7 +21,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" path="/usr/local/go" />
+  <component name="GOROOT" path="D:\Go" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>

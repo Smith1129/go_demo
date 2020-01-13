@@ -1,6 +1,7 @@
 package api
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -45,12 +46,12 @@ func Login(c *gin.Context){
 		c.JSON(http.StatusBadRequest, gin.H{"Code": "0","Msg":"参数不正确"})
 		return
 	}
+	u.Pass = models.Encrypt(u.Pass)
 	data,find_err := u.FindUserByUsernameAndPass()
 	if find_err != nil{
 		c.JSON(http.StatusBadRequest, gin.H{"Code": "0","Msg":find_err.Error()})
 		return
 	}
-
 	payload := models.UserClaims{
 		ID:             data[0].ID,
 		Username:       data[0].Username,
@@ -73,42 +74,73 @@ func GetUserInfo(c *gin.Context){
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(userInfo.ID)
-	//userInfo,ok := c.Get("userInfo")
-	//if !ok{
-	//	return
-	//}
-	//fmt.Println(reflect.TypeOf(userInfo))
-	//var mapResult map[string]interface{}
-	//err := json.Unmarshal(userInfo.([] byte), &mapResult)
-	//if err != nil {
-	//	fmt.Println("JsonToMapDemo err: ", err)
-	//	return
-	//}
-	//var user []models.User
-	//user = userInfo
-	//fmt.Println(mapResult["username"])
-
-	//fmt.Println(reflect.ValueOf(userInfo["Username"]))
-	//fmt.Println(a1.ID)
+	c.JSON(http.StatusOK, gin.H{"Code": "0","Data":userInfo.ID})
 }
-
 func Test2(c *gin.Context){
+	redisClient := global.GetRedisClient()
+	if redisClient == nil {
+		fmt.Errorf("StringDemo redisClient is nil")
+		return
+	}
 	var user []models.User
 	global.GormConfig.Find(&user)
-	m := make(map[string] string)
-	m["ss"] = "dd"
-	//res := &Response{
-	//	UserList: user,
-	//	Page:     "1",
-	//	Color:    "2",
-	//}
-	//token := c.Query("token")
-	//info,err := models.ParseToken(token)
+	data,err := json.Marshal(user)
+	if err !=nil{
+		fmt.Println(err)
+	}
+	mapresult := map[string]string{
+		"userList":string(data),
+		"page":"1",
+		"color":"red",
+	}
+	//var mapresult map[string]string
+	//mapresult["userList"] = string(data)
+	//mapresult["page"] = "1"
+	//mapresult["color"] = "red"
+	fmt.Println(mapresult["page"])
+	c.JSON(http.StatusOK, gin.H{"Code": "0","Data":mapresult})
+	//fmt.Println(string(data))
+	//key := "userList"
+	//result,err := redisClient.HSet(key,"aa",mapresult).Result()
 	//if err != nil{
 	//	fmt.Println(err)
 	//}
-	c.JSON(http.StatusOK, gin.H{"Code": "200","Data":m})
+	//fmt.Println(result,err)
+	//fmt.Println("--------",result)
+	//hdata := redisClient.HGetAll(key).Val()
+	//fmt.Println(hdata)
+	//Test3()
+
+
+
+	//string操作
+	//value := "zzz"
+	//key := "name"
+	//redisClient.Set(key,value,0)
+	//val := redisClient.Get(key)
+	//if val == nil {
+	//	fmt.Errorf("StringDemo get error")
+	//}
+	//fmt.Println("value---------",val.Val())
+
+
+	//list操作
+	//listkey := "list"
+	//_,err := redisClient.RPush(listkey,"a","b","c").Result()
+	//if err!=nil {
+	//	fmt.Println(err)
+	//	return
+	//}
+	//fmt.Println(redisClient.LRange(listkey,0,2))
+}
+func Test3(){
+	key := "userList"
+	redisClient := global.GetRedisClient()
+	val := redisClient.Get(key)
+	if val == nil{
+		fmt.Println("worry")
+	}
+	fmt.Println(val.Val())
 }
 
 type Response struct {
