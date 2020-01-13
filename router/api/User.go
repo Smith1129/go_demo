@@ -1,12 +1,12 @@
 package api
 
 import (
-	"encoding/json"
 	"fmt"
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 	"go_demo/global"
 	"go_demo/models"
+	"go_demo/utils"
 	"net/http"
 	"time"
 )
@@ -17,14 +17,6 @@ func Search(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	//u.Login()
-	 //err := c.ShouldBindJSON(&t)
-	 //if err != nil{
-		// c.JSON(http.StatusBadRequest, gin.H{"error": "username参数必须"})
-		// return
-	 //}
-	//var user models.User
-	//u.Login()
 	c.JSON(http.StatusOK, gin.H{
 		"code":  "200",
 		"data":  u,
@@ -76,34 +68,53 @@ func Login(c *gin.Context){
 }
 
 func GetUserInfo(c *gin.Context){
-	userInfo,_ := c.Get("userInfo")
-	var mapResult map[string]interface{}
-	err := json.Unmarshal(userInfo.([] byte), &mapResult)
-	if err != nil {
-		fmt.Println("JsonToMapDemo err: ", err)
+	userInfo,err := utils.GetUser(c)
+	if err != nil{
+		fmt.Println(err)
+		return
 	}
-	//fmt.Fprintln(mapResult)
-	fmt.Println(mapResult["id"],"zzzz")
-	//fmt.Println(mapResult[0])
-	//json转struct
-	//userInfo,_ := c.Get("userInfo")
-	//var a1 models.UserClaims
-	//err := json.Unmarshal(userInfo.([] byte),&a1)
-	//if err != nil{
-	//	fmt.Println(err)
+	fmt.Println(userInfo.ID)
+	//userInfo,ok := c.Get("userInfo")
+	//if !ok{
+	//	return
 	//}
+	//fmt.Println(reflect.TypeOf(userInfo))
+	//var mapResult map[string]interface{}
+	//err := json.Unmarshal(userInfo.([] byte), &mapResult)
+	//if err != nil {
+	//	fmt.Println("JsonToMapDemo err: ", err)
+	//	return
+	//}
+	//var user []models.User
+	//user = userInfo
+	//fmt.Println(mapResult["username"])
+
+	//fmt.Println(reflect.ValueOf(userInfo["Username"]))
 	//fmt.Println(a1.ID)
 }
 
 func Test2(c *gin.Context){
 	var user []models.User
 	global.GormConfig.Find(&user)
+	m := make(map[string] string)
+	m["ss"] = "dd"
+	//res := &Response{
+	//	UserList: user,
+	//	Page:     "1",
+	//	Color:    "2",
+	//}
 	//token := c.Query("token")
 	//info,err := models.ParseToken(token)
 	//if err != nil{
 	//	fmt.Println(err)
 	//}
-	c.JSON(http.StatusOK, gin.H{"Code": "200","Data":user})
+	c.JSON(http.StatusOK, gin.H{"Code": "200","Data":m})
+}
+
+type Response struct {
+	UserList []models.User`json:"UserList"`
+	Page string `json:"Page"`
+	Color string `json:"color"`
 }
 
 
