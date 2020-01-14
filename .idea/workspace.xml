@@ -3,13 +3,8 @@
   <component name="ChangeListManager">
     <list default="true" id="b96514b1-bb94-4ae0-b913-aaf440b19c2a" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/basic.go" beforeDir="false" afterPath="$PROJECT_DIR$/basic.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/gin.log" beforeDir="false" afterPath="$PROJECT_DIR$/gin.log" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/global/global.go" beforeDir="false" afterPath="$PROJECT_DIR$/global/global.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/models/User.go" beforeDir="false" afterPath="$PROJECT_DIR$/models/User.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/api/User.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/api/User.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/router/index.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/index.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/GetInfo.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/GetInfo.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/router/api/goods.go" beforeDir="false" afterPath="$PROJECT_DIR$/router/api/goods.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/page.go" beforeDir="false" afterPath="$PROJECT_DIR$/utils/page.go" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
