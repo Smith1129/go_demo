@@ -8,18 +8,19 @@ import (
 	"go_demo/global"
 	"strings"
 	"time"
+	//"unicode/utf8"
 )
 
 type User struct {
 	ID	int	`gorm:"primary_key" json:"id"` //
 	Username	string	`json:"username" binding:"required" ` //
-	Pass	string	`json:"pass" binding:"required"` //
+	Pass	string	`json:"-" binding:"required"` //
 	Address	string	`json:"address"` //
 	Nickname	string	`json:"nickname"` //
 	Avatar	string	`gorm:"default":'aaa' json:"avatar"` //
-	Money	string	`gorm:"default":0.00 json:"money"` //
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	Money	float64	`gorm:"default":0.00 json:"money"` //
+	CreatedAt time.Time `json:"-"`
+	UpdatedAt time.Time `json:"-"`
 }
 
 func Encrypt(pass string) string{
@@ -33,7 +34,7 @@ func (u *User) InsertUser() int{
 	//数组切片
 	usernameStr := strings.Replace(u.Username," ","",-1)
 	passStr := strings.Replace(u.Pass," ","",-1)
-	if len(usernameStr) == 0 || len(passStr)==0{
+	if len(usernameStr) <= 2 || len(passStr)==0{
 		return 2
 	}
 	var user []User
@@ -41,7 +42,9 @@ func (u *User) InsertUser() int{
 	if len(user) == 0{
 		u.Pass = Encrypt(u.Pass)
 		err := global.GormConfig.Create(u).Error
-		fmt.Print(err)
+		if err != nil{
+			return 0
+		}
 		return  1
 	}else {
 		return 0
@@ -60,6 +63,14 @@ func  FindUserByUsername(username string) User{
 	var user User
 	global.GormConfig.Where("username = ?",username).Find(&user)
 	return user
+}
+
+func (u *User) UpdateUserNameAndAddress() string{
+	err := global.GormConfig.Model(&u).Updates(map[string] interface{}{"nickname":u.Nickname,"address":u.Address}).Error
+	if err != nil{
+		return "修改失败"
+	}
+	return "修改成功"
 }
 
 

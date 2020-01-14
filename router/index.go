@@ -15,30 +15,14 @@ func RouterConfig() *gin.Engine {
 	gin.DefaultWriter = io.MultiWriter(f)
 	router.GET("/api/register",api.Register)
 	router.GET("/api/login",api.Login)
+	router.GET("/api/goodlist",api.GetGoodList)
 	//router.GET("/test",api.Test)
 	router.GET("/test2",api.Test2)
 	apiGroup := router.Group("/api")
 	apiGroup.Use(middlewares.CheckUser())
 	{
 		apiGroup.GET("/userInfo",api.GetUserInfo)
+		apiGroup.GET("/userInfoSet",api.SetUserInfo)
 	}
-
-	//router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-	//
-	//	// 你的自定义格式
-	//	return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
-	//		param.ClientIP,
-	//		param.TimeStamp.Format(time.RFC1123),
-	//		param.Method,
-	//		param.Path,
-	//		param.Request.Proto,
-	//		param.StatusCode,
-	//		param.Latency,
-	//		param.Request.UserAgent(),
-	//		param.ErrorMessage,
-	//	)
-	//}))
-	//router.Use(gin.Recovery())
-
 	return router
 }

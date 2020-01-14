@@ -6,6 +6,7 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	"go_demo/global"
 	"go_demo/router"
+	"go_demo/utils"
 )
 
 
@@ -13,7 +14,7 @@ func main() {
 	var err error
 	global.GormConfig,err = gorm.Open("mysql",global.MysqlConfig)
 	if err !=nil {
-		fmt.Printf("failed to create gorm mysql engine, %v", err)
+		utils.Error(fmt.Sprintf("%v","-----------mysql启动失败----------",err))
 	}
 	global.GormConfig.DB().SetMaxIdleConns(1000)
 	global.GormConfig.DB().SetMaxOpenConns(5000)

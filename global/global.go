@@ -2,8 +2,8 @@ package global
 
 import (
 	"fmt"
-	"github.com/jinzhu/gorm"
 	"github.com/go-redis/redis"
+	"github.com/jinzhu/gorm"
 )
 
 var MysqlConfig = "zzz:zzz96371@tcp(www.inlighting.org:3306)/zzz?charset=utf8&parseTime=true&loc=Local"
@@ -16,9 +16,9 @@ func GetRedisClient() *redis.Client {
 		Password:           "",
 		DB:                 0,
 	})
-	pong, err := redisdb.Ping().Result()
+	_, err := redisdb.Ping().Result()
 	if err != nil {
-		fmt.Println(pong, err)
+		fmt.Sprintf("%v","--------redis启动失败--------",err)
 	}
 	return redisdb
 }
